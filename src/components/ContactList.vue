@@ -26,11 +26,16 @@
                           @click="deleteContact(contact.no)">삭제</button>
                   </td>
               </tr>
+              <tr v-if="contactlist.contacts.length == 0">
+                <td colspan="5" class="processing">조회중</td>
+              </tr>
           </tbody>
       </table>
       </div>
       <paginate ref="pagebuttons"
         :page-count="totalpage"
+        :page-range="5"
+        :margin-pages="3"
         :prev-text="'<'"
         :next-text="'>'"
         :click-handler="pageChanged"
@@ -97,6 +102,7 @@ export default {
 </script>
 
 <style scoped>
+.processing { width: 100%; height: 365px; background-color: #FFFFFF; }
 .addnew { margin:10px auto; max-width: 820px;  min-width: 820px;
     padding:40px 0px 0px 0px; text-align: left; }
 #example { margin:10px auto; max-width: 820px; min-width: 820px;

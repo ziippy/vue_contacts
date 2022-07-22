@@ -77,6 +77,7 @@ export default {
       this.fetchContacts();
     },
     fetchContacts : function() {
+      this.contactlist.contacts = [];
       this.$axios.get(CONF.FETCH, {
         params : {
           pageno:this.contactlist.pageno,
