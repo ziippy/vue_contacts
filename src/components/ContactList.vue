@@ -76,25 +76,25 @@ export default {
   },
   methods : {
     pageChanged : function(page) {
-      console.log('pageChanged: ', page);
+      //console.log('pageChanged: ', page);
       eventBus.$emit("pageChanged", page);
     },
     addContact : function() {
-      console.log('addContact');
+      //console.log('addContact');
       eventBus.$emit("addContactForm");
     },
     editContact : function(no) {
-      console.log('editContact: ', no);
+      //console.log('editContact: ', no);
       eventBus.$emit("editContactForm", no)
     },
     deleteContact : function(no) {
         if (confirm("정말로 삭제하시겠습니까?") == true) {
-          console.log('deleteContact: ', no);
+          //console.log('deleteContact: ', no);
           eventBus.$emit('deleteContact', no);
         }
     },
     editPhoto : function(no) {
-      console.log('editPhoto: ', no);
+      //console.log('editPhoto: ', no);
       eventBus.$emit("editPhoto", no);
     }
   }

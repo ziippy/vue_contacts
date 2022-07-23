@@ -85,7 +85,7 @@ export default {
         }
       })
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         this.contactlist = response.data;
       })
       .catch((ex)=> {
@@ -94,7 +94,7 @@ export default {
       })
     },
     addContact : function(contact) {
-      console.log("add!!")
+      //console.log("add!!")
       this.$axios.post(CONF.ADD,  contact)
       .then((response) => {
         if (response.data.status === "success") {
@@ -124,6 +124,7 @@ export default {
     fetchContactOne : function(no) {
       this.$axios.get(CONF.FETCH_ONE.replace("${no}", no))
       .then((response) => {
+        //console.log(response.data);
         this.contact = response.data;
       })
       .catch((ex)=> {
@@ -133,6 +134,7 @@ export default {
     deleteContact : function(no) {
       this.$axios.delete(CONF.DELETE.replace("${no}", no))
       .then((response) => {
+        //console.log(response);
         if (response.data.status === "success") {
           this.fetchContacts();
         } else {
@@ -171,4 +173,14 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+</style>
+
+<style>
+  button {
+    cursor: pointer;
+    margin-right: 2px;
+  }
+  input[type=button] {
+    cursor: pointer;
+  }
 </style>
