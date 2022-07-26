@@ -3,10 +3,10 @@
   <div class="form" @keyup.esc="cancelEvent">
     <form method="post" enctype="multipart/form-data">
     <h3 class="heading">:: 사진 변경</h3>
-    <input type="hidden" name="no" class="long" disabled v-model="contact.no" />
+    <input type="hidden" name="no" class="long" disabled v-model="contactInfo.no" />
     <div>
       <label>현재 사진</label>
-      <img class="thumb" :src="contact.photo" />
+      <img class="thumb" :src="contactInfo.photo" />
     </div>
     <div>
       <label>사진 파일 선택</label>
@@ -28,41 +28,29 @@
 </template>
 
 <script>
-//import eventBus from '../EventBus.js';
-import Constant from '../Constant';
-import { mapState } from 'vuex';
-
+import eventBus from '../EventBus.js';
 export default {
   name : "updatePhoto",
-  computed : {
-    ...mapState(['contact'])
-  },
-  /*
   data() {
     return {
       contactInfo : []
     }
   },
   props : [ 'contact' ],
-  */
   methods : {
     cancelEvent : function() {
-      //eventBus.$emit('cancel');
-      this.$store.dispatch(Constant.CANCEL_FORM);
+      eventBus.$emit('cancel');
     },
     photoSubmit : function() {
       var file = this.$refs.photofile.files[0];
-      //eventBus.$emit('updatePhoto', this.contactInfo.no, file);
-      this.$store.dispatch(Constant.UPDATE_PHOTO, { no: this.contact.no, file: file });
+      eventBus.$emit('updatePhoto', this.contactInfo.no, file);
     }
   },
-  /*
   watch : {
     contact : function() {
       this.contactInfo = this.contact;
     }
   }
-  */
 }
 </script>
 

@@ -54,8 +54,7 @@
 </template>
 
 <script>
-import Constant from '../Constant';
-import { mapState } from 'vuex';
+import eventBus from '../EventBus';
 import Paginate from 'vuejs-paginate';
 
 export default {
@@ -63,12 +62,11 @@ export default {
   components : {
     Paginate
   },
-  //props : [ 'contactlist' ],
+  props : [ 'contactlist' ],
   computed : {
     totalpage : function() {
       return Math.floor((this.contactlist.totalcount - 1) / this.contactlist.pagesize) + 1;
-    },
-    ...mapState(['contactlist'])
+    }
   },
   watch : {
     ['contactlist.pageno'] : function() {
@@ -76,36 +74,28 @@ export default {
         this.$refs.pagebuttons.selected = this.contactlist.pageno;
     }
   },
-  mounted : function() {
-    this.$store.dispatch(Constant.FETCH_CONTACTS, { pageno: 1 });
-  },
   methods : {
     pageChanged : function(page) {
       //console.log('pageChanged: ', page);
-      //eventBus.$emit("pageChanged", page);
-      this.$store.dispatch(Constant.FETCH_CONTACTS, { pageno: page });
+      eventBus.$emit("pageChanged", page);
     },
     addContact : function() {
       //console.log('addContact');
-      //eventBus.$emit("addContactForm");
-      this.$store.dispatch(Constant.ADD_CONTACT_FORM);
+      eventBus.$emit("addContactForm");
     },
     editContact : function(no) {
       //console.log('editContact: ', no);
-      //eventBus.$emit("editContactForm", no)
-      this.$store.dispatch(Constant.EDIT_CONTACT_FORM, { no: no });
+      eventBus.$emit("editContactForm", no)
     },
     deleteContact : function(no) {
         if (confirm("정말로 삭제하시겠습니까?") == true) {
           //console.log('deleteContact: ', no);
-          //eventBus.$emit('deleteContact', no);
-          this.$store.dispatch(Constant.DELETE_CONTACT, { no: no });
+          eventBus.$emit('deleteContact', no);
         }
     },
     editPhoto : function(no) {
       //console.log('editPhoto: ', no);
-      //eventBus.$emit("editPhoto", no);
-      this.$store.dispatch(Constant.EDIT_PHOTO_FORM, { no: no });
+      eventBus.$emit("editPhoto", no);
     }
   }
 }

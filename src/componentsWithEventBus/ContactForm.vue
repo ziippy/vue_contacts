@@ -2,28 +2,28 @@
   <div class="modal">
     <div class="form" @keyup.esc="cancelEvent">
       <h3 class="heading">:: {{headingText}}</h3>
-      <div v-show="mode=='add' || contact.no > 0">
+      <div v-show="mode=='add' || contactInfo.no > 0">
         <div v-if="mode=='update'" class="form-group">
           <label>일련번호</label>
-          <input type="text" name="no" class="long" disabled v-model="contact.no" />
+          <input type="text" name="no" class="long" disabled v-model="contactInfo.no" />
         </div>
         <div class="form-group">
           <label>이름</label>
-          <input type="text" name="name" class="long" v-model="contact.name"
+          <input type="text" name="name" class="long" v-model="contactInfo.name"
           ref="name" placeholder="이름을 입력하세요" />
         </div>
         <div class="form-group">
           <label>전화번호</label>
-          <input type="text" name="tel" class="long" v-model="contact.tel"
+          <input type="text" name="tel" class="long" v-model="contactInfo.tel"
           placeholder="전화번호를 입력하세요" />
         </div>
         <div class="form-group">
           <label>주 소</label>
-          <input type="text" name="address" class="long" v-model="contact.address"
+          <input type="text" name="address" class="long" v-model="contactInfo.address"
           placeholder="주소를 입력하세요" />
         </div>
       </div>
-      <div v-show="mode=='update' && !contact.no">
+      <div v-show="mode=='update' && !contactInfo.no">
         <div class="loading">조회중</div>
       </div>
       <div class="form-group">
@@ -38,13 +38,9 @@
 </template>
 
 <script>
-//import eventBus from '../EventBus.js';
-import Constant from '../Constant';
-import { mapState } from 'vuex';
-
+import eventBus from '../EventBus.js';
 export default {
   name : "contactForm",
-  /*
   data() {
     return {
       contactInfo : {
@@ -65,11 +61,9 @@ export default {
       //}
     //}
   },
-  //*/
   mounted : function() {
-    this.$refs.name.focus()
+    this.$refs.name.focus();
   },
-  /*
   watch : {
     contact : function() {
       this.contactInfo = this.contact;
@@ -79,7 +73,6 @@ export default {
       })
     }
   },
-  */
   computed : {
     btnText : function() {
       if (this.mode != 'update') return '추 가';
@@ -88,22 +81,18 @@ export default {
     headingText : function() {
       if (this.mode != 'update') return '새로운 연락처 추가';
       else return '연락처 변경';
-    },
-    ...mapState(['mode', 'contact'])
+    }
   },
   methods : {
     submitEvent : function() {
       if (this.mode == "update") {
-        //eventBus.$emit("updateSubmit", this.contactInfo)
-        this.$store.dispatch(Constant.UPDATE_CONTACT);
+        eventBus.$emit("updateSubmit", this.contactInfo)
       } else {
-        //eventBus.$emit("addSubmit", this.contactInfo);
-        this.$store.dispatch(Constant.ADD_CONTACT);
+        eventBus.$emit("addSubmit", this.contactInfo);
       }
     },
     cancelEvent : function() {
-      //eventBus.$emit("cancel");
-      this.$store.dispatch(Constant.CANCEL_FORM);
+      eventBus.$emit("cancel");
     }
   }
 }
