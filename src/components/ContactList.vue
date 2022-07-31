@@ -1,8 +1,10 @@
 <template>
     <div>
       <p class="addnew">
-        <button class="btn btn-primary" @click="addContact()">
-            새로운 연락처 추가하기</button>
+        <!--
+        <button class="btn btn-primary" @click="addContact()">새로운 연락처 추가하기</button>
+        -->
+        <router-link class="btn btn-primary" v-bind:to="{ name:'addcontact' }">새로운 연락처 추가하기</router-link>
       </p>
       <div id="example">
       <table id="list" class="table table-striped table-bordered table-hover">
@@ -50,6 +52,7 @@
         :first-button-text="'<<'"
         :last-button-text="'>>'"
       ></paginate>
+      <router-view></router-view>
     </div>
 </template>
 
@@ -71,41 +74,58 @@ export default {
     ...mapState(['contactlist'])
   },
   watch : {
-    ['contactlist.pageno'] : function() {
-        //this.$refs.pagebuttons.selected = this.contactlist.pageno-1;
-        this.$refs.pagebuttons.selected = this.contactlist.pageno;
+    // ['contactlist.pageno'] : function() {
+    //     //this.$refs.pagebuttons.selected = this.contactlist.pageno-1;
+    //     this.$refs.pagebuttons.selected = this.contactlist.pageno;
+    // }
+    '$route' : function(to, from) {
+      if (to.query.page && to.query.page != this.contactlist.pageno) {
+        var page = to.query.page;
+        this.$store.dispatch(Constant.FETCH_CONTACTS, { pageno: page });
+        this.$refs.pagebuttons.selected = page;
+      }
     }
   },
   mounted : function() {
-    this.$store.dispatch(Constant.FETCH_CONTACTS, { pageno: 1 });
+    //this.$store.dispatch(Constant.FETCH_CONTACTS, { pageno: 1 });
+    var page = 1;
+    if (this.$route.query && this.$route.query.page) {
+      page = parseInt(this.$route.query.page);
+    }
+    this.$store.dispatch(Constant.FETCH_CONTACTS, { pageno: page });
+    this.$refs.pagebuttons.selected = page;
   },
   methods : {
     pageChanged : function(page) {
       //console.log('pageChanged: ', page);
       //eventBus.$emit("pageChanged", page);
-      this.$store.dispatch(Constant.FETCH_CONTACTS, { pageno: page });
+      //this.$store.dispatch(Constant.FETCH_CONTACTS, { pageno: page });
+      this.$router.push({ name: 'contacts', query: { page: page }})
     },
-    addContact : function() {
-      //console.log('addContact');
-      //eventBus.$emit("addContactForm");
-      this.$store.dispatch(Constant.ADD_CONTACT_FORM);
-    },
+    // addContact : function() {
+    //   //console.log('addContact');
+    //   //eventBus.$emit("addContactForm");
+    //   this.$store.dispatch(Constant.ADD_CONTACT_FORM);
+    // },
     editContact : function(no) {
-      //console.log('editContact: ', no);
+      console.log('editContact: ', no);
       //eventBus.$emit("editContactForm", no)
-      this.$store.dispatch(Constant.EDIT_CONTACT_FORM, { no: no });
+      //this.$store.dispatch(Constant.EDIT_CONTACT_FORM, { no: no });
+      this.$router.push({ name: 'updatecontact', params: { no: no }})
     },
     deleteContact : function(no) {
         if (confirm("정말로 삭제하시겠습니까?") == true) {
           //console.log('deleteContact: ', no);
           //eventBus.$emit('deleteContact', no);
-          this.$store.dispatch(Constant.DELETE_CONTACT, { no: no });
+          //this.$store.dispatch(Constant.DELETE_CONTACT, { no: no });
+          this.$router.push({ name: 'contacts' })
         }
     },
     editPhoto : function(no) {
       //console.log('editPhoto: ', no);
       //eventBus.$emit("editPhoto", no);
-      this.$store.dispatch(Constant.EDIT_PHOTO_FORM, { no: no });
+      //this.$store.dispatch(Constant.EDIT_PHOTO_FORM, { no: no });
+      this.$router.push({ name: 'updatephoto', params: { no: no }})
     }
   }
 }

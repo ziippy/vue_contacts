@@ -1,35 +1,43 @@
 <template>
   <div id="container">
       <div class="page-header">
-         <h1 class="text-center">연락처 관리 애플리케이션</h1>
-         <p>(Dynamic Component + EventBus + Axios) </p>
+        <h1 class="text-center">연락처 관리 애플리케이션</h1>
+        <p>(Dynamic Component + EventBus + Axios) </p>
+        <div class="btn-group">
+          <router-link to="/home" class="btn btn-info menu">Home</router-link>
+          <router-link to="/about" class="btn btn-info menu">About</router-link>
+          <router-link to="/contacts" class="btn btn-info menu">Contacts</router-link>
+        </div>
       </div>
+      <router-view></router-view>
+      <!--
       <component :is="currentView"></component>
       <contactList></contactList>
+      -->
   </div>
 </template>
 
 <script>
-import ContactList from './components/ContactList';
-import ContactForm from './components/ContactForm';
+//import ContactList from './components/ContactList';
+//import ContactForm from './components/ContactForm';
 //import AddContact from './components/AddContact';
 //import UpdateContact from './components/UpdateContact';
-import UpdatePhoto from './components/UpdatePhoto';
+//import UpdatePhoto from './components/UpdatePhoto';
 //import CONF from './Config.js';
 //import eventBus from './EventBus.js';
 
-import { mapState } from 'vuex';
+//import { mapState } from 'vuex';
 
 export default {
   name: 'App',
-  components: {
-    ContactList,
-    ContactForm,
-    //AddContact,
-    //UpdateContact,
-    UpdatePhoto,
-  },
-  computed: mapState([ 'currentView' ])
+  // components: {
+  //   ContactList,
+  //   ContactForm,
+  //   //AddContact,
+  //   //UpdateContact,
+  //   UpdatePhoto,
+  // },
+  // computed: mapState([ 'currentView' ])
   /*
   data : function() {
     return {
