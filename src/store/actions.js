@@ -9,6 +9,7 @@ export default {
   // },
   [Constant.ADD_CONTACT] : (store) => {
     console.log('Actions - ', Constant.ADD_CONTACT);
+    store.dispatch(Constant.CHANGE_ISLOADING, { isloading: true });
     axios.post(CONF.ADD, store.state.contact)
       .then((response) => {
         if (response.data.status == 'success') {
@@ -28,6 +29,7 @@ export default {
   // },
   [Constant.UPDATE_CONTACT] : (store) => {
     console.log('Actions - ', Constant.UPDATE_CONTACT);
+    store.dispatch(Constant.CHANGE_ISLOADING, { isloading: true });
     var currentPageNo = store.state.contactlist.pageno;
     var contact = store.state.contact;
     axios.put(CONF.UPDATE.replace('${no}', contact.no), contact)
@@ -49,6 +51,7 @@ export default {
   // },
   [Constant.UPDATE_PHOTO] : (store, payload) => {
     console.log('Actions - ', Constant.UPDATE_PHOTO);
+    store.dispatch(Constant.CHANGE_ISLOADING, { isloading: true });
     var currentPageNo = store.state.contactlist.pageno;
     var data = new FormData();
     data.append('photo', payload.file);
@@ -72,10 +75,13 @@ export default {
     }
     var pagesize = store.state.contactlist.pagesize;
 
+    store.dispatch(Constant.CHANGE_ISLOADING, { isloading: true });
+
     axios.get(CONF.FETCH, {
       params: { pageno: pageno, pagesize: pagesize }
     }).then((response) => {
       store.commit(Constant.FETCH_CONTACTS, { contactlist: response.data });
+      store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
     })
   },
   [Constant.CANCEL_FORM] : (store) => {
@@ -84,6 +90,7 @@ export default {
   },
   [Constant.DELETE_CONTACT] : (store, payload) => {
     console.log('Actions - ', Constant.DELETE_CONTACT);
+    store.dispatch(Constant.CHANGE_ISLOADING, { isloading: true });
     var currentPageNo = store.state.contactlist.pageno;
     axios.delete(CONF.DELETE.replace('${no}', payload.no))
       .then(() => {
@@ -92,14 +99,20 @@ export default {
   },
   [Constant.FETCH_CONTACT_ONE] : (store, payload) => {
     console.log('Actions - ', Constant.FETCH_CONTACT_ONE);
+    store.dispatch(Constant.CHANGE_ISLOADING, { isloading: true });
 
     axios.get(CONF.FETCH_ONE.replace("${no}", payload.no))
       .then((response) => {
         store.commit(Constant.FETCH_CONTACT_ONE, { contact: response.data });
+        store.dispatch(Constant.CHANGE_ISLOADING, { isloading: false });
       })
   },
   [Constant.INITIALIZE_CONTACT_ONE] : (store) => {
     console.log('Actions - ', Constant.INITIALIZE_CONTACT_ONE);
     store.commit(Constant.INITIALIZE_CONTACT_ONE);
+  },
+  [Constant.CHANGE_ISLOADING] : (store, payload) => {
+    console.log('Actions - ', Constant.CHANGE_ISLOADING);
+    store.commit(Constant.CHANGE_ISLOADING, payload);
   },
 }

@@ -10,6 +10,7 @@
         </div>
       </div>
       <router-view></router-view>
+      <loading v-show="isloading"></loading>
       <!--
       <component :is="currentView"></component>
       <contactList></contactList>
@@ -26,17 +27,20 @@
 //import CONF from './Config.js';
 //import eventBus from './EventBus.js';
 
-//import { mapState } from 'vuex';
+import Loading from './components/Loading';
+import { mapState } from 'vuex';
 
 export default {
   name: 'App',
-  // components: {
-  //   ContactList,
-  //   ContactForm,
-  //   //AddContact,
-  //   //UpdateContact,
-  //   UpdatePhoto,
-  // },
+  components: {
+    //ContactList,
+    //ContactForm,
+    //AddContact,
+    //UpdateContact,
+    //UpdatePhoto,
+    Loading
+  },
+  computed: mapState([ 'isloading' ])
   // computed: mapState([ 'currentView' ])
   /*
   data : function() {

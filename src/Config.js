@@ -6,7 +6,8 @@ export default {
   PAGESIZE : 5,
 
   // API
-  FETCH : BASE_URL + "/contacts",
+  //FETCH : BASE_URL + "/contacts",
+  FETCH : BASE_URL + "/contacts_long",
   ADD : BASE_URL + "/contacts",
   UPDATE : BASE_URL + "/contacts/${no}",
   FETCH_ONE : BASE_URL + "/contacts/${no}",

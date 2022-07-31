@@ -37,4 +37,8 @@ export default {
     console.log('Mutations - ', Constant.INITIALIZE_CONTACT_ONE);
     state.contact = { no: '', name: '', address: '', photo: ''};
   },
+  [Constant.CHANGE_ISLOADING] : (state, payload) => {
+    console.log('Mutations - ', Constant.CHANGE_ISLOADING);
+    state.isloading = payload.isloading;
+  },
 }

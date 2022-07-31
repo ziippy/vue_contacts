@@ -7,4 +7,5 @@ export default {
     pageno:1, pagesize: CONF.PAGESIZE, totalcount:0, contacts:[]
   },
   //mode : 'add'
+  isloading : false
 }
