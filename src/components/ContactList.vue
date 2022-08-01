@@ -52,7 +52,12 @@
         :first-button-text="'<<'"
         :last-button-text="'>>'"
       ></paginate>
-      <router-view></router-view>
+      <transition
+        v-on:before-enter="beforeEnter"
+        v-on:enter="enter"
+        v-on:leave="leave">
+        <router-view></router-view>
+      </transition>
     </div>
 </template>
 
@@ -60,6 +65,7 @@
 import Constant from '../Constant';
 import { mapState } from 'vuex';
 import Paginate from 'vuejs-paginate';
+import Velocity from 'velocity-animate';
 
 export default {
   name : 'contactList',
@@ -126,7 +132,21 @@ export default {
       //eventBus.$emit("editPhoto", no);
       //this.$store.dispatch(Constant.EDIT_PHOTO_FORM, { no: no });
       this.$router.push({ name: 'updatephoto', params: { no: no }})
-    }
+    },
+    beforeEnter : function(el) {
+      el.style.apacity = 0;
+    },
+    enter: function(el, done) {
+      Velocity(el, { opacity: 0, scale: 0.2 }, { duration: 200 })
+      Velocity(el, { opacity: 0.7, scale: 1.2 }, { duration: 200 })
+      Velocity(el, { opacity: 1, scale: 1 }, { complete: done })
+    },
+    leave: function(el, done) {
+      Velocity(el, { translateX: '0px', opacity: 1 }, { duration: 100 })
+      Velocity(el, { translateX: '20px', opacity: 1 }, { duration: 100, loop: 2 })
+      Velocity(el, { translateX: '0px', opacity: 1 }, { duration: 200 })
+      Velocity(el, { translateX: '100px', opacity: 0 }, { complete: done })
+    },
   }
 }
 </script>
